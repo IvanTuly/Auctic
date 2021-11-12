@@ -103,7 +103,12 @@ class ExhibitionTableViewCell: UITableViewCell {
         let dateB = dateFormatter.date(from: date) ?? .init()
         
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .year]
-        let difference = (Calendar.current as NSCalendar).components(components, from: dateB, to: dateA, options: .init())
+        let difference = (Calendar.current as NSCalendar).components(
+            components,
+            from: dateB,
+            to: dateA,
+            options: .init()
+        )
         
         let dateTimeDifferenceString = "\(difference.day!)"
         
@@ -122,14 +127,12 @@ class ExhibitionTableViewCell: UITableViewCell {
     }
     
     private func setupGradient() {
-        gradient.colors = [UIColor.darkGrad.cgColor, UIColor.white.withAlphaComponent(0).cgColor]
+        gradient.colors = [ UIColor.white.withAlphaComponent(0).cgColor, UIColor.darkGrad.cgColor]
         gradient.locations = [0, 1]
-        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
-        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
         gradient.cornerRadius = layer.cornerRadius
-        gradient.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: -1, b: 0, c: 0, d: -5.8, tx: 1, ty: 3.4))
-        gradient.bounds = bounds.insetBy(dx: -0.5 * bounds.size.width, dy: -0.5 * bounds.size.height)
-        gradient.position = center
+        gradient.bounds = bounds
     }
     
     private func setupLayout() {
