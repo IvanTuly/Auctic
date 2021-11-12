@@ -60,6 +60,7 @@ class ProductManager: ProductManagerProtocol {
 }
 
 private final class ProductConverter {
+    
     enum Key: String {
         case id
         case name
@@ -92,13 +93,13 @@ private final class ProductConverter {
     }
     
     func dict(from product: Product) -> [String: Any] {
-            var data: [String: Any] = [:]
-            
-            data[Key.currentPrice.rawValue] = product.currentPrice
-            data[Key.idClient.rawValue] = product.idClient
-            data[Key.currentIdClient.rawValue] = product.currentIdClient
-    
-            return data
-        }
+        var data: [String: Any] = [:]
+        
+        data[Key.currentPrice.rawValue] = product.currentPrice
+        data[Key.idClient.rawValue] = product.idClient
+        data[Key.currentIdClient.rawValue] = product.currentIdClient
+        
+        return data
+    }
 }
 

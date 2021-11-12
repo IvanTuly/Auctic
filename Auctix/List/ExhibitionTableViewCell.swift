@@ -8,14 +8,26 @@
 import UIKit
 import SnapKit
 
+protocol _ExhibitionCell {
+    var image   : UIImage? { get }
+    var name    : String   { get }
+    var city    : String   { get }
+}
+
 class ExhibitionTableViewCell: UITableViewCell {
     
-    static let identifier = "CustomTableViewCell"
+    private struct Constants {
+        static let labelPosition: CGFloat = 20
+        static let imageFromLeftRight: CGFloat = 12
+        static let imageFromTopBottom: CGFloat = 5
+    }
+    
     private let container = UIView()
     private let gradient = CAGradientLayer()
     private var netImage = ExhibitionsImageLoader.shared
     private let exhName = UILabel()
-    private let exhibitionImage: UIImageView = {
+    
+    private let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -23,39 +35,33 @@ class ExhibitionTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let exhibitionName: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()
     
-    private let exhibitionCity: UILabel = {
+    private let cityLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()
     
-    private let exhibitionCountry: UILabel = {
+    private let countryLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()
     
-    private let exhibitionExpirationDate: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()
-    
-    private struct Constraints {
-        static let labelPosition: CGFloat = 20
-        static let imageFromLeftRight: CGFloat = 12
-        static let imageFromTopBottom: CGFloat = 5
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -65,7 +71,6 @@ class ExhibitionTableViewCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
         return nil
     }
     
@@ -74,27 +79,15 @@ class ExhibitionTableViewCell: UITableViewCell {
         setupLayout()
     }
     
-    func configure(with exhibition: Exhibition) {
-        exhibitionImage.image = #imageLiteral(resourceName: "VK")
-        exhibitionName.text = exhibition.name
-        exhibitionCity.text = exhibition.city + ","
-        exhibitionCountry.text = exhibition.country
-        let days = calculateTimeDifference(from: exhibition.expirationDate)
-        if Int(days) == 1 {
-            exhibitionExpirationDate.text = "Trading ends today!"
-        } else {
-            exhibitionExpirationDate.text = "\(days) days left until closing"
-        }
-        DispatchQueue.global(qos: .utility).async {
-            DispatchQueue.main.async {
-                [self] in
-                exhName.text = self.exhibitionName.text! + ".jpeg"
-                netImage.image(with: exhName.text!) { [weak self] image in
-                    self?.exhibitionImage.image = image
-                }
-            }
-        }
+    func configure(with data: _ExhibitionCell) {
         
+   
+        nameLabel.text       = data.name
+        cityLabel.text       = data.city
+    
+        netImage.image(with: exhName.text!) { [weak self] image in
+            self?.mainImageView.image  = image
+        }
     }
     
     func calculateTimeDifference(from dateTime1: String) -> String {
@@ -103,27 +96,16 @@ class ExhibitionTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yy"
         
-        let date = dateFormatter.string(from: dateWithTime) // 2/10/17
+        let date = dateFormatter.string(from: dateWithTime) // 2.10.17
         
-        //        let dateFormatter = DateFormatter()
-        //        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        let dateAsString = dateTime1
-        let date1 = dateFormatter.date(from: dateAsString)!
-        
-        let dateAsString2 = date
-        let date2 = dateFormatter.date(from: date)!
+        let dateString = dateTime1
+        let dateA = dateFormatter.date(from: dateString) ?? .init()
+        let dateB = dateFormatter.date(from: date) ?? .init()
         
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .year]
-        let difference = (Calendar.current as NSCalendar).components(components, from: date2, to: date1, options: [])
+        let difference = (Calendar.current as NSCalendar).components(components, from: dateB, to: dateA, options: .init())
         
         let dateTimeDifferenceString = "\(difference.day!)"
-        
-        //        if difference.day != 0 {
-        //            dateTimeDifferenceString = "\(difference.day!)d \(difference.hour!)h \(difference.minute!)m"
-        //        } else if  difference.day == 0 {
-        //            dateTimeDifferenceString = "\(difference.hour!)h \(difference.minute!)m"
-        //        }
         
         return dateTimeDifferenceString
         

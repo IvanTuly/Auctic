@@ -17,7 +17,7 @@ final class ExhibitionsImageLoader {
             if let data = data {
                 completion(UIImage(data: data))
             } else {
-                completion(nil)
+                completion(.init(named: "default"))
             }
         }
     }

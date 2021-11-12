@@ -8,7 +8,7 @@
 import  UIKit
 
 public enum FontsName: String {
-    case black      = "Nunito-Black"
+    case black     = "Nunito-Black"
     case regular   = "Nunito-Regular"
     case light     = "Nunito-Light"
 }

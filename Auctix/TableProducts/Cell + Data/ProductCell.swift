@@ -9,18 +9,21 @@ import UIKit
 
 
 class ProductCell: UITableViewCell {
-    
-    static let nib = UINib(nibName: String(describing: ExhibitionCell.self), bundle: nil)
 
+    // MARK: - UI Elements
     private let containerView = UIView()
     private let gradient = CAGradientLayer()
     private let imageProd = UIImageView()
     private let nameProd = UILabel()
     private let time = UILabel()
     private let cost = UILabel()
-    private var netImage = ProductImageLoader.shared
     private let prodName = UILabel()
     
+    // MARK: - 
+    // MARK: - Managers
+    private var netImage = ProductImageLoader.shared
+    
+    // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupGradient()

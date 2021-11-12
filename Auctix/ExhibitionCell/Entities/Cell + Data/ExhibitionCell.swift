@@ -59,6 +59,7 @@ class ExhibitionCell: UICollectionViewCell {
        // imageExhib.image = data.titleImg
         jumpButton.setTitle(data.name, for: .normal)
         exhName.text = data.name + ".jpeg"
+        mainImage = data.image 
         netImage.image(with: exhName.text!) { [weak self] image in
             self?.imageExhib.image = image
         }

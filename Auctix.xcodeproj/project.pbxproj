@@ -58,6 +58,8 @@
 		314E554327242CA000A45903 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 314E554227242CA000A45903 /* Nunito-Light.ttf */; };
 		314E554427242CA000A45903 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 314E554227242CA000A45903 /* Nunito-Light.ttf */; };
 		314E554527242CA000A45903 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 314E554227242CA000A45903 /* Nunito-Light.ttf */; };
+		31CE8DFD273F2DBA006BF4DF /* Ext + UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CE8DFC273F2DBA006BF4DF /* Ext + UITableViewCell.swift */; };
+		31CE8DFF273F2DF9006BF4DF /* Ext + UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CE8DFE273F2DF8006BF4DF /* Ext + UICollectionViewCell.swift */; };
 		FC1C80622714B223005185D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1C80612714B223005185D6 /* AppDelegate.swift */; };
 		FC1C80642714B223005185D6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1C80632714B223005185D6 /* SceneDelegate.swift */; };
 		FC1C80692714B223005185D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC1C80672714B223005185D6 /* Main.storyboard */; };
@@ -168,6 +170,8 @@
 		20ECC332273E7CC500CA1E00 /* ProductImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageLoader.swift; sourceTree = "<group>"; };
 		314E553E27242C9100A45903 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		314E554227242CA000A45903 /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Light.ttf"; sourceTree = "<group>"; };
+		31CE8DFC273F2DBA006BF4DF /* Ext + UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext + UITableViewCell.swift"; sourceTree = "<group>"; };
+		31CE8DFE273F2DF8006BF4DF /* Ext + UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext + UICollectionViewCell.swift"; sourceTree = "<group>"; };
 		FC1C805E2714B223005185D6 /* Auctix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auctix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1C80612714B223005185D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC1C80632714B223005185D6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -300,6 +304,8 @@
 			children = (
 				2039BA98272AD3F800AD1A19 /* File.swift */,
 				FC7428D02736AA1D0005C2C3 /* CustomAlert.swift */,
+				31CE8DFE273F2DF8006BF4DF /* Ext + UICollectionViewCell.swift */,
+				31CE8DFC273F2DBA006BF4DF /* Ext + UITableViewCell.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -694,10 +700,12 @@
 				FC48D58D272AF18900AFC1BE /* OnboardingViewController.swift in Sources */,
 				FC5EB4C5271B5403000EA4C1 /* ExhibitionCell.swift in Sources */,
 				FC5EB4C7271B5530000EA4C1 /* Exhibition.swift in Sources */,
+				31CE8DFD273F2DBA006BF4DF /* Ext + UITableViewCell.swift in Sources */,
 				FCAD16B527255041009140BF /* ProductManager.swift in Sources */,
 				FC7428CD27367FAF0005C2C3 /* ViewAccount.swift in Sources */,
 				2092674327390B13002E5DE6 /* HomeButtonController.swift in Sources */,
 				2097AA81272DBC0900FA6292 /* TestViewController.swift in Sources */,
+				31CE8DFF273F2DF9006BF4DF /* Ext + UICollectionViewCell.swift in Sources */,
 				204D684C27384DF10010C375 /* ExhibitionsImageLoader.swift in Sources */,
 				FC5EB4C9271B58BB000EA4C1 /* ExhibitionManager.swift in Sources */,
 				04764D182733CD330094114C /* CustomTextField.swift in Sources */,
@@ -922,7 +930,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = BL67M76RZ8;
+				DEVELOPMENT_TEAM = PS3BVPM73X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Auctix/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

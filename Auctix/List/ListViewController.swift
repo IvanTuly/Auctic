@@ -14,7 +14,11 @@ protocol ListViewControllerInput: AnyObject {
 
 class ListViewController: UIViewController {
     
-    private var exhibitions: [Exhibition] = []
+    private var exhibitions: [Exhibition] = [] {
+        didSet {
+            makeLoadedState()
+        }
+    }
     private var header: ListTableHeader!
     private let sortingData = ["Name","City","Country"]
     private let container = UIView()
@@ -24,6 +28,23 @@ class ListViewController: UIViewController {
     private var sortLabel: String = " "
     private let tableView = UITableView()
     private let model: TableModelDescription = TableModel()
+    
+    private struct ViewModel {
+        
+        var cells: [Cell] = .init()
+        
+        struct Cell: _ExhibitionCell {
+            var image: UIImage
+            var name: String
+            var city: String
+        }
+    }
+    
+    private var viewModel: ViewModel = .init() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +53,12 @@ class ListViewController: UIViewController {
         setupPickerView()
         setupNavBar()
         setupModel()
+    }
+    
+    private func makeLoadedState() {
+        if let cell = tableView.cellForRow(at: index) as? ExhibitionTableViewCell {
+            cell.setupImage(image)
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -151,8 +178,8 @@ extension ListViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ExhibitionTableViewCell.identifier, for: indexPath) as? ExhibitionTableViewCell else { return UITableViewCell()}
-        let exhibition = exhibitions[indexPath.row]
-        cell.configure(with: exhibition)
+        let data = viewModel.cells[indexPath.row]
+        cell.configure(with: data)
         cell.selectionStyle = .default
         return cell
     }

@@ -23,6 +23,7 @@ enum NetworkError: Error {
 }
 
 class ExhibitionManager: ExhibitionManagerProtocol {
+    
     var output: ExhibitionManagerOutput?
     static let shared: ExhibitionManagerProtocol = ExhibitionManager()
     private let database = Firestore.firestore()

@@ -16,8 +16,11 @@ protocol TableProductControllerInput: AnyObject {
 class TableProductsController: UITableViewController {
     
     var nameExhibition = ""
-    private var products: [Product] = []
-    private var productsNew: [Product] = []
+    private var products: [Product] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     private let custumAlert = CustomAlert()
     private let model: TableProductModelDescription = TableProductModel()
     
@@ -48,13 +51,13 @@ class TableProductsController: UITableViewController {
     }
     // настройка ячеек таблицы (их регистрация)
     func setupTableView() {
-        tableView.register(ProductCell.self, forCellReuseIdentifier: ProductCell.identifireProd)
+        tableView.register(ProductCell.nib, forCellReuseIdentifier: ProductCell.identifire) 
     }
     // открытие страницы продукта
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let product = products[indexPath.row]
-
         let viewController = ProductViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
         viewController.product = product
@@ -64,14 +67,15 @@ class TableProductsController: UITableViewController {
     }
 }
 extension TableProductsController: TableProductControllerInput {
+    
     func didReceive(_ products: [Product]) {
-        for i in 0...(products.count-1) {
-            if products[i].idExhibition == nameExhibition {
-                productsNew.append(products[i])
+        self.products = products.compactMap {
+            if $0.idExhibition == nameExhibition {
+                return $0
+            } else {
+                return nil
             }
         }
-        self.products = productsNew
-        tableView.reloadData()
     }
 }
 // MARK: - Table view data source
@@ -86,7 +90,7 @@ extension TableProductsController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: ProductCell.identifireProd, for: indexPath) as? ProductCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: ProductCell.identifire, for: indexPath) as? ProductCell {
             let product = products[indexPath.row]
             cell.configure(with: product)
             return cell
@@ -99,10 +103,12 @@ extension TableProductsController {
 extension TableProductsController: ProductViewControllerDelegate {
     func didTapChatButton(productViewController: UIViewController, productName: String, priceTextFild: String) {
         
-        if priceTextFild.isEmpty == false {
+        if !priceTextFild.isEmpty {
             var product = products.first { $0.name == productName }
             product?.currentIdClient = Auth.auth().currentUser?.uid ?? ""
-            if ((product?.idClient.first { $0 == Auth.auth().currentUser?.uid}) == nil) {
+            
+            let flag = product?.idClient.first { $0 == Auth.auth().currentUser?.uid}
+            if flag == nil {
                 product?.idClient.append(Auth.auth().currentUser?.uid ?? "")
             }
             product?.currentPrice = Int(priceTextFild) ?? 0
