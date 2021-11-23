@@ -248,7 +248,7 @@ extension ViewAccount {
         constraints.append(tableView.trailingAnchor.constraint(
             equalTo:safeAreaLayoutGuide.trailingAnchor))
         constraints.append(tableView.bottomAnchor.constraint(
-            equalTo: tableView.topAnchor, constant: 220))
+            equalTo: tableView.topAnchor, constant: 240))
         constraints.append(tableView.topAnchor.constraint(
             equalTo: emailVerificaionTitle.bottomAnchor))
      
@@ -256,12 +256,11 @@ extension ViewAccount {
             equalTo: leadingAnchor))
         constraints.append(collectionView.trailingAnchor.constraint(
             equalTo: trailingAnchor))
+        constraints.append(collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10))
+        constraints.append(collectionView.heightAnchor.constraint(equalToConstant: 200))
+       //constraints.append(collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height/4))
         
-       constraints.append(collectionView.bottomAnchor.constraint(
-        equalTo: tableView.bottomAnchor, constant: UIScreen.main.bounds.height/4))
-        
-        constraints.append(collectionView.topAnchor.constraint(
-            equalTo: tableView.bottomAnchor))
+        //constraints.append(collectionView.topAnchor.constraint(equalTo: bottomAnchor, constant: -10))
       
         //Activate
         NSLayoutConstraint.activate(constraints)

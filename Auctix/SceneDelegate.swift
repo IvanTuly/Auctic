@@ -73,8 +73,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         blurEffectView.tag = 221122
         
         self.window?.addSubview(blurEffectView)
-        
-        
+ 
         print("sceneWillResignActive")
     }
 
@@ -93,4 +92,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-

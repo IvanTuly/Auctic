@@ -12,7 +12,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
    
-  //  var window: UIWindow?
+   // var window: UIWindow?
     var orientationLock = UIInterfaceOrientationMask.portrait
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -43,5 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return self.orientationLock
     }
 
+//    func applicationWillResignActive(_ application: UIApplication) {
+//        window?.endEditing(true)
+//    }
 }
 

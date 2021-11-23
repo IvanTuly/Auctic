@@ -85,7 +85,7 @@ class EditingAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        registerForKeyboardNotifications()
+   //     registerForKeyboardNotifications()
         setupImage()
         setupEmailVerLabel()
         configureUI()
@@ -285,8 +285,8 @@ extension EditingAccountViewController: UITextFieldDelegate {
 
 extension EditingAccountViewController {
     func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(RegistrationController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(RegistrationController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditingAccountViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditingAccountViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc

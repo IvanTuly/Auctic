@@ -393,10 +393,10 @@ extension RegistrationController {
         }
         
         if(shouldMoveViewUpCity) {
-            self.view.frame.origin.y = 0 - keyboardSize.height/8
+            self.view.frame.origin.y = 0 - keyboardSize.height/20
         }
         if(scholdMoveViewUpNum) {
-            self.view.frame.origin.y = 0 - keyboardSize.height/3
+            self.view.frame.origin.y = 0 - keyboardSize.height/5
         }
 
     }
