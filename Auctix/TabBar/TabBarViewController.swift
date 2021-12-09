@@ -22,7 +22,7 @@ class TabBarViewController: UITabBarController , UITabBarControllerDelegate {
         setupButton()
         setupTabBarLayer()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

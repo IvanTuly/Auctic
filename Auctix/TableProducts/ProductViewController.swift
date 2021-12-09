@@ -32,7 +32,6 @@ class ProductViewController: UIViewController {
     private let currency = UILabel()
     private let priceFild = UITextField()
     private let question = UILabel()
-    //private let emailLabel = UILabel()
     private var flag: Bool?
     private var flagAuth: Bool?
     

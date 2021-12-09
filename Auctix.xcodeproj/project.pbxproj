@@ -45,6 +45,8 @@
 		FC5EB4C5271B5403000EA4C1 /* ExhibitionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EB4C4271B5403000EA4C1 /* ExhibitionCell.swift */; };
 		FC5EB4C7271B5530000EA4C1 /* Exhibition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EB4C6271B5530000EA4C1 /* Exhibition.swift */; };
 		FC5EB4C9271B58BB000EA4C1 /* ExhibitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EB4C8271B58BB000EA4C1 /* ExhibitionManager.swift */; };
+		FC7305A3275A1A320098EE8B /* TableSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7305A2275A1A320098EE8B /* TableSearchViewController.swift */; };
+		FC7305A5275A20350098EE8B /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7305A4275A20350098EE8B /* SearchCell.swift */; };
 		FC7428CB2735B3E40005C2C3 /* ViewAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7428CA2735B3E40005C2C3 /* ViewAuth.swift */; };
 		FC7428CD27367FAF0005C2C3 /* ViewAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7428CC27367FAF0005C2C3 /* ViewAccount.swift */; };
 		FC7428D12736AA1D0005C2C3 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7428D02736AA1D0005C2C3 /* CustomAlert.swift */; };
@@ -114,6 +116,8 @@
 		FC5EB4C4271B5403000EA4C1 /* ExhibitionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionCell.swift; sourceTree = "<group>"; };
 		FC5EB4C6271B5530000EA4C1 /* Exhibition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exhibition.swift; sourceTree = "<group>"; };
 		FC5EB4C8271B58BB000EA4C1 /* ExhibitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionManager.swift; sourceTree = "<group>"; };
+		FC7305A2275A1A320098EE8B /* TableSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSearchViewController.swift; sourceTree = "<group>"; };
+		FC7305A4275A20350098EE8B /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		FC7428CA2735B3E40005C2C3 /* ViewAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAuth.swift; sourceTree = "<group>"; };
 		FC7428CC27367FAF0005C2C3 /* ViewAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAccount.swift; sourceTree = "<group>"; };
 		FC7428D02736AA1D0005C2C3 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
@@ -298,6 +302,15 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		FC7305A1275A1A100098EE8B /* TableSearch */ = {
+			isa = PBXGroup;
+			children = (
+				FC7305A2275A1A320098EE8B /* TableSearchViewController.swift */,
+				FC7305A4275A20350098EE8B /* SearchCell.swift */,
+			);
+			path = TableSearch;
+			sourceTree = "<group>";
+		};
 		FCA9E17E27418008005C42B2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,6 +397,7 @@
 		FCFCE7DE2721EFB500A59AA0 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				FC7305A1275A1A100098EE8B /* TableSearch */,
 				2092674227390B13002E5DE6 /* HomeButtonController.swift */,
 				FC555533272ADAFB005E697F /* HomeTableLayout.swift */,
 				2053404A27385DF400B9008B /* CollectionModel.swift */,
@@ -587,6 +601,7 @@
 				208FC9FB272AC89E00FEB6B8 /* ListTableHeader.swift in Sources */,
 				FC39181A273BD0B900828F1B /* TableProductModel.swift in Sources */,
 				FCAD16B927255052009140BF /* Product.swift in Sources */,
+				FC7305A3275A1A320098EE8B /* TableSearchViewController.swift in Sources */,
 				FCFCE7D9271EB94300A59AA0 /* ListViewController.swift in Sources */,
 				04764CBC272C2B2F0094114C /* SettingTableViewCell.swift in Sources */,
 				FC7428D12736AA1D0005C2C3 /* CustomAlert.swift in Sources */,
@@ -607,6 +622,7 @@
 				04764D122733CCDB0094114C /* LoginController.swift in Sources */,
 				FC48D58D272AF18900AFC1BE /* OnboardingViewController.swift in Sources */,
 				FC5EB4C5271B5403000EA4C1 /* ExhibitionCell.swift in Sources */,
+				FC7305A5275A20350098EE8B /* SearchCell.swift in Sources */,
 				FC5EB4C7271B5530000EA4C1 /* Exhibition.swift in Sources */,
 				FCAD16B527255041009140BF /* ProductManager.swift in Sources */,
 				FC7428CD27367FAF0005C2C3 /* ViewAccount.swift in Sources */,

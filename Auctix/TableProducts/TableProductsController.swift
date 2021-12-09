@@ -132,6 +132,7 @@ extension TableProductsController {
                 return label
             }()
             setImage(for: imageView, with: imageURL.text ?? "vk.jpeg")
+            
             cell.delegate = self
             
             return cell
