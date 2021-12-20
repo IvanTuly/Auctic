@@ -1,10 +1,3 @@
-//
-//  ViewAccount.swift
-//  Auctix
-//
-//  Created by Михаил Шаговитов on 06.11.2021.
-//
-
 import Firebase
 import UIKit
 
@@ -28,8 +21,20 @@ protocol GoFuncEdit: AnyObject {
     func editCellTapped()
 }
 
+protocol GoFuncSupport: AnyObject {
+    func supportCellTapped()
+}
+
 protocol GoLetter: AnyObject {
     func confirmationLetter()
+}
+
+protocol GoChangePhoto: AnyObject {
+    func changePhoto()
+}
+
+protocol GoUserPhoto: AnyObject {
+    func addPhoto()
 }
 
 class ViewAccount: UIView, UITableViewDelegate, UITableViewDataSource {
@@ -39,8 +44,21 @@ class ViewAccount: UIView, UITableViewDelegate, UITableViewDataSource {
     weak var delegateEdit: GoFuncEdit?
     weak var delegateLetter: GoLetter?
     weak var delegateImage: inputImage?
+    weak var delegateSupport: GoFuncSupport?
+    weak var delegateChangePhoto: GoChangePhoto?
+    weak var delegatePhoto: GoUserPhoto?
+    
+    let loadingIndicator: ProgressView = {
+            let progress = ProgressView(colors: [.red, .systemGreen, .systemBlue], lineWidth: 5)
+            progress.translatesAutoresizingMaskIntoConstraints = false
+            return progress
+        }()
+    
+    
     private var products: [Product] = []
     private var productsNew: [Product] = []
+    private var flag: Int?
+    //private let tablePC = TableProductsController()
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         
@@ -81,18 +99,29 @@ class ViewAccount: UIView, UITableViewDelegate, UITableViewDataSource {
         return collection
     }()
     
-    var models = [Section]()
+    private var models = [Section]()
     private let model: CollectionLikedModelDescription = CollectionLikedModel()
-    var image = UIImageView()
-    var userNameTitle = UILabel()
-    var emailVerificaionTitle = UILabel()
-    let appearance = UINavigationBarAppearance()
-    let viewAuth = ViewAuth()
+    private var imageView = UIImageView()
+    var imageViewTest: UIImageView?
+    {
+        didSet {
+            self.viewWithTag(35)?.removeFromSuperview()
+        }
+    }
+    private var userNameTitle = UILabel()
+    private var emailVerificaionTitle = UILabel()
+    private let appearance = UINavigationBarAppearance()
+    private let viewAuth = ViewAuth()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupModel()
         setupAccView()
+        
+        
+        
+
+
     }
     required init?(coder: NSCoder) {
         super .init(coder: coder)
@@ -110,7 +139,10 @@ class ViewAccount: UIView, UITableViewDelegate, UITableViewDataSource {
         setupNavigationTitle()
         
         setupImage()
-        addSubview(image)
+        addSubview(imageView)
+        
+        imageView.addSubview(loadingIndicator)
+        loadingIndicator.tag = 35
         
         setupUserNameLabel()
         addSubview(userNameTitle)
@@ -141,8 +173,23 @@ class ViewAccount: UIView, UITableViewDelegate, UITableViewDataSource {
         delegateEdit?.editCellTapped()
     }
     @objc
+    func supportCellTapped() {
+        delegateSupport?.supportCellTapped()
+    }
+    
+    @objc
     func CellTapped() {
         
+    }
+    
+    @objc
+    func changePhoto() {
+        delegateChangePhoto?.changePhoto()
+    }
+    
+    @objc
+    func addPhoto() {
+        delegatePhoto?.addPhoto()
     }
 }
 
@@ -150,11 +197,20 @@ class ViewAccount: UIView, UITableViewDelegate, UITableViewDataSource {
 extension ViewAccount {
     //MARK: настраиваем изображение аккаунта
     func setupImage(){
-        image.image = UIImage(named: "UserImage")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width/3, height: UIScreen.main.bounds.width/3)
-        image.makeRounded()
+        addPhoto()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width/3, height: UIScreen.main.bounds.width/3)
+        imageView.makeRounded()
     }
+    
+    public func setImage(_ image: UIImage) {
+        imageView.image = image
+    }
+    
+    public func getImage() -> UIImage {
+        return imageView.image ?? #imageLiteral(resourceName: "UserDefault")
+    }
+    
     //MARK: настраиваем табличное отображение настроек
     func setupTable(){
         configure()
@@ -222,20 +278,20 @@ extension ViewAccount {
         //self.title = "Account"
     }
     //MARK: добавляем констрейты для вьюх
-    private func addConstraints() {
+    func addConstraints() {
         var constraints = [NSLayoutConstraint]()
         //add
         
-        constraints.append(image.leadingAnchor.constraint(
+        constraints.append(imageView.leadingAnchor.constraint(
             equalTo: leadingAnchor, constant: UIScreen.main.bounds.width/3))
-        constraints.append(image.trailingAnchor.constraint(
+        constraints.append(imageView.trailingAnchor.constraint(
             equalTo: trailingAnchor, constant: -UIScreen.main.bounds.width/3))
-        constraints.append(image.bottomAnchor.constraint(
+        constraints.append(imageView.bottomAnchor.constraint(
             equalTo: safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.width/3))
-        constraints.append(image.topAnchor.constraint(
+        constraints.append(imageView.topAnchor.constraint(
             equalTo: safeAreaLayoutGuide.topAnchor))
  
-        constraints.append(userNameTitle.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10))
+        constraints.append(userNameTitle.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10))
         constraints.append(userNameTitle.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
         constraints.append(userNameTitle.trailingAnchor.constraint(equalTo: trailingAnchor))
         
@@ -248,7 +304,7 @@ extension ViewAccount {
         constraints.append(tableView.trailingAnchor.constraint(
             equalTo:safeAreaLayoutGuide.trailingAnchor))
         constraints.append(tableView.bottomAnchor.constraint(
-            equalTo: tableView.topAnchor, constant: 220))
+            equalTo: tableView.topAnchor, constant: 240))
         constraints.append(tableView.topAnchor.constraint(
             equalTo: emailVerificaionTitle.bottomAnchor))
      
@@ -256,13 +312,17 @@ extension ViewAccount {
             equalTo: leadingAnchor))
         constraints.append(collectionView.trailingAnchor.constraint(
             equalTo: trailingAnchor))
+        constraints.append(collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10))
+        constraints.append(collectionView.heightAnchor.constraint(equalToConstant: 200))
+       //constraints.append(collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height/4))
         
-       constraints.append(collectionView.bottomAnchor.constraint(
-        equalTo: tableView.bottomAnchor, constant: UIScreen.main.bounds.height/4))
-        
-        constraints.append(collectionView.topAnchor.constraint(
-            equalTo: tableView.bottomAnchor))
+        //constraints.append(collectionView.topAnchor.constraint(equalTo: bottomAnchor, constant: -10))
       
+        constraints.append(loadingIndicator.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 47))
+        constraints.append(loadingIndicator.trailingAnchor.constraint(equalTo: imageView.trailingAnchor,constant: -47))
+        constraints.append(loadingIndicator.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -47))
+        constraints.append(loadingIndicator.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 47))
+        
         //Activate
         NSLayoutConstraint.activate(constraints)
     }
@@ -332,10 +392,11 @@ extension ViewAccount {
                 self.confirmationLetter()
             }),
             .staticCell(model:SettingsOption(title: "Contact us", icon: UIImage(systemName: "questionmark.circle"), iconBackgroundColor: .systemGreen) {
-                
+                self.supportCellTapped()
             }),
             
-            .staticCell(model: SettingsOption(title: "Favorites", icon: UIImage(systemName: "heart"), iconBackgroundColor: .systemRed) {
+            .staticCell(model: SettingsOption(title: "Change photo", icon: UIImage(systemName: "person.crop.rectangle"), iconBackgroundColor: .systemRed) {
+                self.changePhoto()
                     
             })
         ]))
@@ -360,7 +421,9 @@ extension ViewAccount: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductLikedCell.identifireProdLiked, for: indexPath) as? ProductLikedCell {
             let data = products[indexPath.row]
+            cell.isFavorit = true
             cell.configure(with: data)
+            cell.delegate = self
             let imageView = cell.getImageView()
             let imageURL: UILabel = {
                 let label = UILabel()
@@ -429,4 +492,26 @@ extension ViewAccount: AccountControllerInput {
     }
     
 }
-
+extension ViewAccount: ProductCellDescription {
+    func didTabButton(nameProduct: String, isFavorit: Bool) {
+        for i in 0...(products.count-1) {
+            if products[i].name == nameProduct {
+                if isFavorit {
+                    for j in 0...(products[i].idClientLiked.count-1) {
+                        if products[i].idClientLiked[j] == Auth.auth().currentUser?.uid ?? "" {
+                            products[i].idClientLiked.remove(at: j)
+                            flag = i
+                            break
+                        }
+                    }
+            }
+        }
+        }
+        
+        model.update(product: products[flag ?? 0])
+        flag = nil
+        collectionView.reloadData()
+        //print("gggggggggg")
+    }
+        
+}

@@ -57,9 +57,15 @@ class AccountButtonTabViewController: UIViewController {
                 viewAcc.delegate = self
                 viewAcc.delegateEdit = self
                 viewAcc.delegateLetter = self
+                viewAcc.delegateSupport = self
                 viewAcc.delegateCell = self
                 viewAcc.delegateImage = self
+                viewAcc.delegatePhoto = self
+                viewAcc.delegateChangePhoto = self
                 setupLayoutAcc()
+                viewAcc.setupImage()
+                viewAcc.loadingIndicator.animateStroke()
+                viewAcc.loadingIndicator.animateRotation()
             }
             viewAcc.setupUserNameLabel()
             viewAcc.setupEmailVerLabel()
@@ -110,6 +116,7 @@ class AccountButtonTabViewController: UIViewController {
 
 extension AccountButtonTabViewController: GoToLogin {
     func loginButtonTapped(sender: UIButton){
+        viewAcc.setImage(#imageLiteral(resourceName: "UserDefault"))
         navigationController?.pushViewController(LoginController(), animated: false)
     }
 }
@@ -127,7 +134,7 @@ extension AccountButtonTabViewController: GoFuncAccount {
     }
 }
 
-extension AccountButtonTabViewController: GoFuncEdit {
+extension AccountButtonTabViewController: GoLetter {
     func confirmationLetter() {
         if Auth.auth().currentUser != nil && !Auth.auth().currentUser!.isEmailVerified {
             Auth.auth().currentUser!.sendEmailVerification(completion: { (error) in
@@ -145,9 +152,71 @@ extension AccountButtonTabViewController: GoFuncEdit {
     }
 }
 
-extension AccountButtonTabViewController: GoLetter {
+extension AccountButtonTabViewController: GoFuncEdit {
     func editCellTapped() {
         navigationController?.pushViewController(EditingAccountViewController(), animated: true)
+    }
+}
+
+extension AccountButtonTabViewController: GoFuncSupport {
+    func supportCellTapped() {
+        navigationController?.pushViewController(SupportViewController(), animated: true)
+    }
+}
+
+extension AccountButtonTabViewController: GoChangePhoto {
+    func changePhoto() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        present(imagePickerController, animated: true, completion: nil)
+    }
+}
+
+extension AccountButtonTabViewController: GoUserPhoto {
+    func addPhoto() {
+        let userId = Auth.auth().currentUser?.uid ?? ""
+        let islandRef = Storage.storage().reference().child("UsersPhoto").child("\(userId)")
+
+        islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                self.viewAcc.setImage(#imageLiteral(resourceName: "UserDefault"))
+                let newImageView = UIImageView(image: #imageLiteral(resourceName: "UserDefault"))
+                self.viewAcc.imageViewTest? = newImageView
+
+            } else {
+                guard let data = data else { return }
+                let image = UIImage(data: data)
+                self.viewAcc.setImage(image ?? #imageLiteral(resourceName: "UserDefault"))
+                let newImageView = UIImageView(image: image)
+                self.viewAcc.imageViewTest? = newImageView
+
+            }
+        }
+    }
+}
+
+extension AccountButtonTabViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        self.viewAcc.setImage(image)
+        
+        let userId = Auth.auth().currentUser?.uid ?? ""
+        let ref = Storage.storage().reference().child("UsersPhoto").child(userId)
+        
+        guard let imageData = viewAcc.getImage().jpegData(compressionQuality: 0.4) else { return }
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        ref.putData(imageData, metadata: metadata) { (metadata, error) in
+            guard let metadata = metadata else { return }
+            ref.downloadURL { (url, error) in
+                guard let url = url else { return }
+                
+            }
+        }
     }
 }
 
